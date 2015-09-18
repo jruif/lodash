@@ -1,9 +1,8 @@
+import basePairs from '../internal/basePairs';
 import keys from './keys';
-import toObject from '../internal/toObject';
 
 /**
- * Creates a two dimensional array of the key-value pairs for `object`,
- * e.g. `[[key1, value1], [key2, value2]]`.
+ * Creates an array of own enumerable key-value pairs for `object`.
  *
  * @static
  * @memberOf _
@@ -12,22 +11,18 @@ import toObject from '../internal/toObject';
  * @returns {Array} Returns the new array of key-value pairs.
  * @example
  *
- * _.pairs({ 'barney': 36, 'fred': 40 });
- * // => [['barney', 36], ['fred', 40]] (iteration order is not guaranteed)
+ * function Foo() {
+ *   this.a = 1;
+ *   this.b = 2;
+ * }
+ *
+ * Foo.prototype.c = 3;
+ *
+ * _.pairs(new Foo);
+ * // => [['a', 1], ['b', 2]] (iteration order is not guaranteed)
  */
 function pairs(object) {
-  object = toObject(object);
-
-  var index = -1,
-      props = keys(object),
-      length = props.length,
-      result = Array(length);
-
-  while (++index < length) {
-    var key = props[index];
-    result[index] = [key, object[key]];
-  }
-  return result;
+  return basePairs(object, keys(object));
 }
 
 export default pairs;
